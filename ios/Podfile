@@ -11,8 +11,20 @@ prepare_react_native_project!
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => linkage.to_sym
+  # use_frameworks! :linkage => linkage.to_sym
+  # use_frameworks! :linkage => :static
 end
+
+use_frameworks! :linkage => :static
+
+pod 'GoogleUtilities', :modular_headers => true
+pod 'FirebaseCoreInternal', :modular_headers => true
+pod 'FirebaseFirestore', :modular_headers => true
+pod 'FirebaseCore', :modular_headers => true
+pod 'FirebaseCoreExtension', :modular_headers => true
+pod 'FirebaseFirestoreInternal', :modular_headers => true
+$RNFirebaseAsStaticFramework = true
+
 
 target 'Demo' do
   config = use_native_modules!

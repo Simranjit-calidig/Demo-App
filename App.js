@@ -10,6 +10,10 @@ import {NavigationService} from '@services';
 import SplashScreen from 'react-native-splash-screen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
+if (__DEV__) {
+  require('./ReactotronConfig');
+}
+
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
