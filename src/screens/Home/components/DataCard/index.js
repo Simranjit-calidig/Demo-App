@@ -1,58 +1,50 @@
 import React, {Fragment} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ActivityIndicator} from 'react-native';
 import {
   UnistylesRuntime,
   createStyleSheet,
   useStyles,
 } from 'react-native-unistyles';
 import {moderateScale, verticalScale} from '@utils/scaling';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {MoveDown} from 'lucide-react-native';
-import {COLORS} from 'src/styles/themes';
 import {LineGraph, SalesDealIcon, SalesTargetIcon} from '@assets/SVGs';
 import {SharedStyles} from 'src/shared';
 
-const DataCard = ({containerStyles = {}}) => {
+const CARD_ICON = [<SalesTargetIcon />, <SalesDealIcon />];
+
+const DataCard = ({containerStyles = {}, data = {}, loading = false}) => {
   const {styles, theme} = useStyles(stylesheet);
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
-  const insets = useSafeAreaInsets();
 
   return (
     <Fragment>
-      <DataCard1 containerStyles={containerStyles} />
+      <DataCard1
+        data={data?.dataPoint || []}
+        containerStyles={containerStyles}
+        loading={loading}
+      />
       <View style={[styles.main, containerStyles]}>
-        <View style={styles.subContainer}>
-          <View style={styles.cardContainer}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={styles.valueText}>{'10,254'}</Text>
-              <Text style={[styles.percentChangeText]}>{'1.5'}</Text>
-              <MoveDown color={'red'} size={14} />
+        {loading ? (
+          <Loading />
+        ) : (
+          <View style={styles.subContainer}>
+            <View style={styles.cardContainer}>
+              <View style={SharedStyles.rowCenter}>
+                <Text style={styles.valueText}>{data?.visitors}</Text>
+                <Text style={[styles.percentChangeText]}>{'1.5'}</Text>
+                <MoveDown color={'red'} size={14} />
+              </View>
+              <Text style={styles.descText}>{'Visitors this year'}</Text>
             </View>
-            <Text style={styles.descText}>{'Visitors this year'}</Text>
+            <LineGraph />
           </View>
-          <LineGraph />
-        </View>
+        )}
       </View>
     </Fragment>
   );
 };
 
-const DATA = [
-  {
-    key: '12jjds',
-    value: '68%',
-    desc: 'Hit Rate this year',
-    icon: <SalesTargetIcon />,
-  },
-  {
-    key: '7dfs68d',
-    value: '76%',
-    desc: 'Deal this year',
-    icon: <SalesDealIcon />,
-  },
-];
-
-const DataCard1 = ({containerStyles = {}}) => {
+const DataCard1 = ({containerStyles = {}, data = [], loading = false}) => {
   const {styles, theme} = useStyles(stylesheet);
 
   return (
@@ -60,20 +52,36 @@ const DataCard1 = ({containerStyles = {}}) => {
       style={[
         styles.main,
         {justifyContent: 'space-between'},
-        styles.cardContainer,
+        !loading && styles.cardContainer,
         containerStyles,
       ]}>
-      {DATA.map((item, index) => {
-        return (
-          <View style={styles.cardBox}>
-            {item.icon}
-            <View style={styles.cardContainer1}>
-              <Text style={styles.cardText1}>{'68%'}</Text>
-              <Text style={styles.descText}>{'Hit Rate this year'}</Text>
-            </View>
-          </View>
-        );
-      })}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {data?.map((item, index) => {
+            return (
+              <View style={styles.cardBox}>
+                {CARD_ICON?.[index]}
+                <View style={styles.cardContainer1}>
+                  <Text style={styles.cardText1}>{item.value}</Text>
+                  <Text style={styles.descText}>{item.desc}</Text>
+                </View>
+              </View>
+            );
+          })}
+        </>
+      )}
+    </View>
+  );
+};
+
+const Loading = () => {
+  const {styles, theme} = useStyles(stylesheet);
+
+  return (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator color={'blue'} />
     </View>
   );
 };
@@ -85,6 +93,12 @@ const stylesheet = createStyleSheet(theme => ({
     backgroundColor: 'white',
     borderRadius: 15,
     ...SharedStyles.shadowLight,
+  },
+  loadingContainer: {
+    height: verticalScale(60),
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
   },
   subContainer: {
     flex: 1,

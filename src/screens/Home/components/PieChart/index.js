@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {Fragment} from 'react';
+import {View, Text, ActivityIndicator} from 'react-native';
 import {
   UnistylesRuntime,
   createStyleSheet,
@@ -13,54 +13,56 @@ const lineColor2 = '#ED6665';
 const lineColor3 = '#3DD598';
 const lineColor4 = '#177AD5';
 
-const pieData = [
-  {value: 50, color: lineColor1, text: '50%'},
-  {value: 10, color: lineColor2, text: '26%'},
-  {value: 22, color: lineColor3, text: '14%'},
-  {value: 22, color: lineColor4, text: '1%'},
-];
-
-const PieChart = ({containerStyles = {}}) => {
+const PieChart = ({containerStyles = {}, loading = false, data = []}) => {
   const {styles, theme} = useStyles(stylesheet);
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
 
   return (
-    <View style={[styles.container, containerStyles]}>
-      <Text style={styles.title}>{'2017'}</Text>
-      <View style={{flex: 1, alignItems: 'center'}}>
-        <PieChartGraph
-          donut
-          textColor="black"
-          radius={130}
-          isAnimated
-          data={pieData}
-        />
-        <View style={styles.absoluteContainer}>
-          <Text style={styles.innerText}>{'22.870'}</Text>
-          <Text style={styles.descText}>{'Visitors this year'}</Text>
+    <Fragment>
+      {loading ? (
+        <View
+          style={[styles.container, styles.loadingContainer, containerStyles]}>
+          <ActivityIndicator size={'large'} color={'blue'} />
         </View>
-      </View>
-      <View style={styles.rowCenter1}>
-        <View style={[styles.rowCenter, {marginRight: 20}]}>
-          <View style={styles.circle} />
-          <Text>{'Amazon 2.1K'}</Text>
+      ) : (
+        <View style={[styles.container, containerStyles]}>
+          <Text style={styles.title}>{'2017'}</Text>
+          <View style={{flex: 1, alignItems: 'center'}}>
+            <PieChartGraph
+              donut
+              isAnimated
+              data={data}
+              radius={130}
+              textColor="black"
+            />
+            <View style={styles.absoluteContainer}>
+              <Text style={styles.innerText}>{'22.870'}</Text>
+              <Text style={styles.descText}>{'Visitors this year'}</Text>
+            </View>
+          </View>
+          <View style={styles.rowCenter1}>
+            <View style={[styles.rowCenter, {marginRight: 20}]}>
+              <View style={styles.circle} />
+              <Text>{'Amazon 2.1K'}</Text>
+            </View>
+            <View style={styles.rowCenter}>
+              <View style={[styles.circle, {backgroundColor: lineColor2}]} />
+              <Text>{'Alibaba 1K'}</Text>
+            </View>
+          </View>
+          <View style={[styles.rowCenter, {alignSelf: 'center'}]}>
+            <View style={[styles.rowCenter, {marginRight: 20}]}>
+              <View style={[styles.circle, {backgroundColor: lineColor3}]} />
+              <Text>{'Ebay 1.9k'}</Text>
+            </View>
+            <View style={styles.rowCenter}>
+              <View style={[styles.circle, {backgroundColor: lineColor1}]} />
+              <Text>{'Shopify 15.7K'}</Text>
+            </View>
+          </View>
         </View>
-        <View style={styles.rowCenter}>
-          <View style={[styles.circle, {backgroundColor: lineColor2}]} />
-          <Text>{'Alibaba 1K'}</Text>
-        </View>
-      </View>
-      <View style={styles.rowCenter}>
-        <View style={[styles.rowCenter, {marginRight: 20}]}>
-          <View style={[styles.circle, {backgroundColor: lineColor3}]} />
-          <Text>{'Ebay 1.9k'}</Text>
-        </View>
-        <View style={styles.rowCenter}>
-          <View style={[styles.circle, {backgroundColor: lineColor1}]} />
-          <Text>{'Shopify 15.7K'}</Text>
-        </View>
-      </View>
-    </View>
+      )}
+    </Fragment>
   );
 };
 
@@ -76,6 +78,10 @@ const stylesheet = createStyleSheet(theme => ({
     fontWeight: 'bold',
     textAlign: 'center',
     paddingBottom: verticalScale(10),
+  },
+  loadingContainer: {
+    height: 300,
+    justifyContent: 'center',
   },
   circle: {
     height: 10,
