@@ -1,47 +1,47 @@
 import {
-  ChatIcon,
-  HomeActiveIcon,
-  HomeIcon,
-  SearchActiveIcon,
-  SearchIcon,
-  AddHoobahooIcon,
-  ChatActiveIcon,
-} from "@assets/SVGs/Tab";
-import NAVIGATION from "@navigations/navigation";
+  House,
+  ShoppingCart,
+  UserRound,
+  ClipboardList,
+} from 'lucide-react-native';
+import NAVIGATION from '@navigations/navigation';
 
-export const tabHelper = (isDark) => {
+const inActiveColor = '#36363d';
+const activeColor = 'orange';
+
+export const tabHelper = isDark => {
   const TABS = [
     {
-      title: "Feed",
-      Icon: { active: <HomeActiveIcon isDark={isDark} />, inActive: <HomeIcon isDark={isDark} /> },
-      route: "",
-    },
-    {
-      title: "Search",
+      title: 'Home',
       Icon: {
-        active: <SearchActiveIcon isDark={isDark} />,
-        inActive: <SearchIcon isDark={isDark} />,
+        active: <House color={activeColor} />,
+        inActive: <House color={inActiveColor} />,
       },
-      route: "",
+      route: NAVIGATION.SCREEN.HOME,
     },
     {
-      title: "Add",
+      title: 'Product',
       Icon: {
-        active: <AddHoobahooIcon isDark={isDark} />,
-        inActive: <AddHoobahooIcon isDark={isDark} />,
+        active: <ClipboardList color={activeColor} />,
+        inActive: <ClipboardList color={inActiveColor} />,
       },
-      route: NAVIGATION.ROUTES.ROUTE_HOOOBHAOO,
+      route: NAVIGATION.SCREEN.PRODUCT,
     },
     {
-      title: "Chat",
-      Icon: { active: <ChatActiveIcon isDark={isDark} />, inActive: <ChatIcon isDark={isDark} /> },
-      // route: NAVIGATION.ROUTES.ROUTE_CHAT,
-      route: NAVIGATION.CHAT.MESSAGE_SCREEN,
+      title: 'Cart',
+      route: NAVIGATION.SCREEN.CART,
+      Icon: {
+        active: <ShoppingCart color={activeColor} />,
+        inActive: <ShoppingCart color={inActiveColor} />,
+      },
     },
     {
-      title: "Profile",
-      Icon: { active: <></>, inActive: <></> },
-      route: NAVIGATION.PROFILE.PROFILE_SCREEN,
+      title: 'Profile',
+      route: NAVIGATION.SCREEN.PROFILE,
+      Icon: {
+        active: <UserRound color={activeColor} />,
+        inActive: <UserRound color={inActiveColor} />,
+      },
     },
   ];
   return TABS;

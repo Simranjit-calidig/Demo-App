@@ -1,3 +1,4 @@
+import {SCREEN_PADDING} from '@utils/scaling';
 import React from 'react';
 import {SafeAreaView, StatusBar, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
@@ -7,22 +8,40 @@ const stylesheet = createStyleSheet(theme => ({
     flex: 1,
     backgroundColor: theme.colors.background,
   },
+  screenPadding: {
+    paddingHorizontal: SCREEN_PADDING,
+  },
 }));
 
-const WrapperContainer = ({children, style, isSafeAreaView}) => {
+const WrapperContainer = ({
+  style,
+  children,
+  isSafeAreaView,
+  withScreenPadding,
+}) => {
   const {styles} = useStyles(stylesheet);
   const {theme} = useStyles();
 
   if (isSafeAreaView) {
     return (
-      <SafeAreaView style={[styles.container, style]}>
+      <SafeAreaView
+        style={[
+          style,
+          styles.container,
+          withScreenPadding && styles.screenPadding,
+        ]}>
         <StatusBar barStyle={theme.colors.barStyle} />
         {children}
       </SafeAreaView>
     );
   }
   return (
-    <View style={[styles.container, style]}>
+    <View
+      style={[
+        style,
+        styles.container,
+        withScreenPadding && styles.screenPadding,
+      ]}>
       <StatusBar barStyle={theme.colors.barStyle} />
       {children}
     </View>

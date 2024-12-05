@@ -1,3 +1,5 @@
+import {Screen} from 'react-native-screens';
+
 const NAVIGATION = {
   AUTH: {
     LOGIN_SCREEN: 'LoginScreen',
@@ -6,6 +8,12 @@ const NAVIGATION = {
     MAIN: 'Main',
     AUTH: 'Auth',
     TAB: 'Tab',
+  },
+  SCREEN: {
+    HOME: 'HomeScreen',
+    PRODUCT: 'ProductScreen',
+    CART: 'CartScreen',
+    PROFILE: 'ProfileScreen',
   },
   APP: 'App',
   ROUTES: {},

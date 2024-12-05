@@ -49,6 +49,15 @@ export const SharedStyles = StyleSheet.create({
     },
     shadowOpacity: 0.19,
   },
+  shadowLight: {
+    shadowColor: "black",
+    shadowRadius: 6,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.02,
+  },
   errorMessage: {
     paddingTop: Platform.OS == "android" ? 50 : 50,
   },

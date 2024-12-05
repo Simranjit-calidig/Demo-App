@@ -7,13 +7,13 @@ import {
 } from 'react-native-unistyles';
 import {scale, verticalScale} from '@utils/scaling';
 
-const LoginScreen = ({navigation}) => {
+const ProfileScreen = ({navigation}) => {
   const {styles, theme} = useStyles(stylesheet);
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{'LoginScreen'}</Text>
+      <Text style={styles.title}>{'ProfileScreen'}</Text>
     </View>
   );
 };
@@ -31,4 +31,4 @@ const stylesheet = createStyleSheet(theme => ({
   },
 }));
 
-export default LoginScreen;
+export default ProfileScreen;

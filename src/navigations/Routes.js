@@ -6,6 +6,7 @@ import {useSelector} from '@redux/hooks';
 import NAVIGATION from './navigation';
 import {COLORS} from 'src/styles/themes';
 import AuthStack from './AuthStack';
+import BottomTabs from './BottomTabs';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +23,7 @@ const Routes = forwardRef((props, ref) => {
     >
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {/* <Stack.Screen name={NAVIGATION.ROUTES.ROUTE_HOME} component={<></>} /> */}
-        <Stack.Screen name={NAVIGATION.APP} component={AuthStack} />
+        <Stack.Screen name={NAVIGATION.APP} component={BottomTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
