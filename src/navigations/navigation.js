@@ -1,8 +1,7 @@
-import {Screen} from 'react-native-screens';
-
 const NAVIGATION = {
   AUTH: {
     LOGIN_SCREEN: 'LoginScreen',
+    SIGNUP_SCREEN: 'SignUpScreen',
   },
   STACK: {
     MAIN: 'Main',
@@ -14,6 +13,7 @@ const NAVIGATION = {
     PRODUCT: 'ProductScreen',
     CART: 'CartScreen',
     PROFILE: 'ProfileScreen',
+    PRODUCT_DETAIL_SCREEN: 'ProductDetailScreen',
   },
   APP: 'App',
   ROUTES: {},

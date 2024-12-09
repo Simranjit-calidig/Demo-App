@@ -14,7 +14,8 @@
       "@redux/*": ["src/redux/*"],
       "@navigations/*": ["src/navigations/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@models/*": ["src/models/*"]
+      "@models/*": ["src/models/*"],
+      "@formik/*": ["src/formik"]
     }
   }
 }

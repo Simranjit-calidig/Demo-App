@@ -61,11 +61,11 @@ const DataCard1 = ({containerStyles = {}, data = [], loading = false}) => {
         <>
           {data?.map((item, index) => {
             return (
-              <View style={styles.cardBox}>
+              <View style={styles.cardBox} key={item?.value + index}>
                 {CARD_ICON?.[index]}
                 <View style={styles.cardContainer1}>
-                  <Text style={styles.cardText1}>{item.value}</Text>
-                  <Text style={styles.descText}>{item.desc}</Text>
+                  <Text style={styles.cardText1}>{item?.value}</Text>
+                  <Text style={styles.descText}>{item?.desc}</Text>
                 </View>
               </View>
             );

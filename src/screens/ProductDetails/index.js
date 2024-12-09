@@ -9,43 +9,8 @@ import {scale, verticalScale} from '@utils/scaling';
 import {HomeHeader, ScreenHeader} from '@components/molecules';
 import {WrapperContainer, Input} from '@components/atoms';
 import {Plus} from 'lucide-react-native';
-import {ProductList} from './components';
 
-const titles = [
-  'Classic School Bag',
-  'Eco-Friendly Backpack',
-  'Waterproof Tote Bag',
-  'Vintage Leather Bag',
-  'Sports Duffel Bag',
-  'Compact Sling Bag',
-  'Stylish Handbag',
-  'Travel Backpack',
-  'Canvas Tote Bag',
-  'Elegant Shoulder Bag',
-  'Large Hiking Bag',
-  'Minimalist Laptop Bag',
-  'Expandable Carry-On Bag',
-  'Casual Crossbody Bag',
-  'Kids Cartoon Bag',
-  'Designer Handbag',
-  'Utility Messenger Bag',
-  'Luxury Travel Bag',
-  'Outdoor Gear Backpack',
-  'Smart Bag with USB Port',
-];
-
-const productData = Array.from({length: 20}, (_, index) => ({
-  id: `product-${index + 1}`,
-  title: titles[Math.floor(Math.random() * titles.length)],
-  brand: `Brand ${index + 1}`,
-  price: (Math.random() * 100).toFixed(2),
-  stock: Math.floor(Math.random() * 100),
-  variants: Math.floor(Math.random() * 10) + 1,
-  imageUri:
-    'https://static.vecteezy.com/system/resources/previews/009/665/781/non_2x/school-bag-for-student-or-bag-for-kid-free-png.png',
-}));
-
-const ProductScreen = ({navigation}) => {
+const ProductDetails = ({navigation}) => {
   const {styles, theme} = useStyles(stylesheet);
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
   const [searchText, setSearchText] = useState('');
@@ -80,18 +45,6 @@ const ProductScreen = ({navigation}) => {
           containerStyle={styles.searchInput}
         />
 
-        {filteredProducts.map((item, index) => (
-          <ProductList
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            brand={item.brand}
-            price={item.price}
-            stock={item.stock}
-            variants={item.variants}
-            imageUri={item.imageUri}
-          />
-        ))}
 
         <View style={styles.bottom} />
       </ScrollView>
@@ -118,4 +71,4 @@ const stylesheet = createStyleSheet(theme => ({
   },
 }));
 
-export default ProductScreen;
+export default ProductDetails;

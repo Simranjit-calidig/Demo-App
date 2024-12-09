@@ -1,18 +1,17 @@
-import React, { useState, forwardRef, Fragment } from "react";
-import { TextInput, View, Text, Pressable, Platform } from "react-native";
-import { ErrorIcon } from "@assets/SVGs";
-import { useStyles, UnistylesRuntime } from "react-native-unistyles";
-import styleSheet from "./styles";
-import { COLORS } from "src/styles/themes";
-import { moderateScale } from "@utils/scaling";
-import { TextContainer } from "..";
-import { Eye, EyeOff } from "lucide-react-native";
+import React, {useState, forwardRef, Fragment} from 'react';
+import {TextInput, View, Text, Pressable, Platform} from 'react-native';
+import {useStyles, UnistylesRuntime} from 'react-native-unistyles';
+import styleSheet from './styles';
+import {COLORS} from 'src/styles/themes';
+import {moderateScale} from '@utils/scaling';
+import {TextContainer} from '..';
+import {Eye, EyeOff, CircleAlert} from 'lucide-react-native';
 
 export default forwardRef(
   (
     {
       error,
-      title = "",
+      title = '',
       onPress = null,
       leftIcon = null,
       rightIcon = null,
@@ -22,36 +21,42 @@ export default forwardRef(
       totalDigits = null,
       isCounterWhite = false,
       password = false,
-      totalCount = "",
+      totalCount = '',
       containerStyle = {},
       ...props
     },
     ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false);
-    const { styles, theme } = useStyles(styleSheet);
+    const {styles, theme} = useStyles(styleSheet);
     const [isPassword, setIsPassword] = useState(password);
 
     let borderColor = COLORS.inputBorderColor;
-    const backgroundColor = onPress
-      ? theme.colors.inputBG2
-      : editable
-        ? theme.colors.inputBG2
-        : theme.colors.inputBG2;
-    const isDarkMode = UnistylesRuntime.themeName === "dark";
+    // const backgroundColor = onPress
+    //   ? theme.colors.inputBG2
+    //   : editable
+    //     ? theme.colors.inputBG2
+    //     : theme.colors.inputBG2;
+    const backgroundColor = 'white';
+    const isDarkMode = UnistylesRuntime.themeName === 'dark';
 
     if (isFocused) borderColor = COLORS.blue;
     if (error) borderColor = COLORS.error;
     if (isValid) borderColor = theme.colors.appPrimary;
 
-    if (!!onPress && Platform.OS == "android") {
+    if (!!onPress && Platform.OS == 'android') {
       return (
-        <Pressable style={[{}, containerStyle]} onPress={editable ? null : onPress}>
+        <Pressable
+          style={[{}, containerStyle]}
+          onPress={editable ? null : onPress}>
           {!!title && <TextContainer text={title} style={styles.titleText} />}
           {!!totalCount && (
-            <Text style={styles.countText}>{`${props?.value?.length}/${totalCount}`}</Text>
+            <Text
+              style={
+                styles.countText
+              }>{`${props?.value?.length}/${totalCount}`}</Text>
           )}
-          <View style={[styles.container, { backgroundColor, borderColor }]}>
+          <View style={[styles.container, {backgroundColor, borderColor}]}>
             {leftIcon}
             <TextInput
               ref={ref}
@@ -61,14 +66,14 @@ export default forwardRef(
               placeholderTextColor={COLORS.textGray}
               style={[
                 styles.textInput,
-                { marginLeft: leftIcon ? moderateScale(6) : 0 },
+                {marginLeft: leftIcon ? moderateScale(6) : 0},
                 props?.style,
               ]}
               onFocus={() => {
                 setIsFocused(true);
                 props?.onFocus?.();
               }}
-              onBlur={(e) => {
+              onBlur={e => {
                 setIsFocused(false);
                 props?.onBlur?.(e);
               }}
@@ -77,11 +82,17 @@ export default forwardRef(
               <Fragment>
                 {isPassword ? (
                   <Pressable onPress={() => setIsPassword(!isPassword)}>
-                    <EyeOff color={isDarkMode ? COLORS.white : COLORS.black} size={24} />
+                    <EyeOff
+                      color={isDarkMode ? COLORS.white : COLORS.black}
+                      size={24}
+                    />
                   </Pressable>
                 ) : (
                   <Pressable onPress={() => setIsPassword(!isPassword)}>
-                    <Eye color={isDarkMode ? COLORS.white : COLORS.black} size={24} />
+                    <Eye
+                      color={isDarkMode ? COLORS.white : COLORS.black}
+                      size={24}
+                    />
                   </Pressable>
                 )}
               </Fragment>
@@ -91,12 +102,12 @@ export default forwardRef(
           </View>
           {!!error ? (
             <View style={styles.errorContainer}>
-              <ErrorIcon style={styles.icon} />
-              <Text style={styles.errorText}>{error || "Error"}</Text>
+              <CircleAlert color={COLORS.error} size={10} />
+              <Text style={styles.errorText}>{error || 'Error'}</Text>
             </View>
           ) : (
             <View style={styles.emptyErrorContainer}>
-              <Text style={styles.emptyErrorText}>{"Empty"}</Text>
+              <Text style={styles.emptyErrorText}>{'Empty'}</Text>
             </View>
           )}
         </Pressable>
@@ -107,9 +118,12 @@ export default forwardRef(
       <View style={[{}, containerStyle]}>
         {!!title && <TextContainer text={title} style={styles.titleText} />}
         {!!totalCount && (
-          <Text style={styles.countText}>{`${props?.value?.length}/${totalCount}`}</Text>
+          <Text
+            style={
+              styles.countText
+            }>{`${props?.value?.length}/${totalCount}`}</Text>
         )}
-        <View style={[styles.container, { backgroundColor, borderColor }]}>
+        <View style={[styles.container, {backgroundColor, borderColor}]}>
           {leftIcon}
           <TextInput
             ref={ref}
@@ -120,14 +134,14 @@ export default forwardRef(
             placeholderTextColor={COLORS.textGray}
             style={[
               styles.textInput,
-              { marginLeft: leftIcon ? moderateScale(6) : 0 },
+              {marginLeft: leftIcon ? moderateScale(6) : 0},
               props?.style,
             ]}
             onFocus={() => {
               setIsFocused(true);
               props?.onFocus?.();
             }}
-            onBlur={(e) => {
+            onBlur={e => {
               setIsFocused(false);
               props?.onBlur?.(e);
             }}
@@ -136,11 +150,17 @@ export default forwardRef(
             <Fragment>
               {isPassword ? (
                 <Pressable onPress={() => setIsPassword(!isPassword)}>
-                  <EyeOff color={isDarkMode ? COLORS.white : COLORS.black} size={24} />
+                  <EyeOff
+                    color={isDarkMode ? COLORS.white : COLORS.black}
+                    size={24}
+                  />
                 </Pressable>
               ) : (
                 <Pressable onPress={() => setIsPassword(!isPassword)}>
-                  <Eye color={isDarkMode ? COLORS.white : COLORS.black} size={24} />
+                  <Eye
+                    color={isDarkMode ? COLORS.white : COLORS.black}
+                    size={24}
+                  />
                 </Pressable>
               )}
             </Fragment>
@@ -150,12 +170,12 @@ export default forwardRef(
         </View>
         {!!error ? (
           <View style={styles.errorContainer}>
-            <ErrorIcon style={styles.icon} />
-            <Text style={styles.errorText}>{error || "Error"}</Text>
+            <CircleAlert color={COLORS.error} size={10} />
+            <Text style={styles.errorText}>{error || 'Error'}</Text>
           </View>
         ) : (
           <View style={styles.emptyErrorContainer}>
-            <Text style={styles.emptyErrorText}>{"Empty"}</Text>
+            <Text style={styles.emptyErrorText}>{'Empty'}</Text>
           </View>
         )}
       </View>

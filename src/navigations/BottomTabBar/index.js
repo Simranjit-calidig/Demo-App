@@ -27,7 +27,7 @@ const CustomTabBar = ({state, navigation}) => {
     (route, index) => {
       setSelectedTab(route.title);
       try {
-        navigation.navigate(NAVIGATION.APP, {
+        navigation.navigate(NAVIGATION.STACK.MAIN, {
           screen: route.route,
         });
       } catch (error) {

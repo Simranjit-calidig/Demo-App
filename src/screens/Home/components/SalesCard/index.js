@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {View, Text, ActivityIndicator} from 'react-native';
 import {
   UnistylesRuntime,
@@ -14,7 +14,7 @@ import {
 import {MoveUp, MoveDown} from 'lucide-react-native';
 import {COLORS} from 'src/styles/themes';
 import {SharedStyles} from 'src/shared';
-import SkeletonContent from 'react-native-skeleton-content-nonexpo';
+import AnimatedNumbers from 'react-native-animated-numbers';
 
 const SalesCard = ({data = [], containerStyles = {}, loading = false}) => {
   const {styles, theme} = useStyles(stylesheet);
@@ -48,9 +48,13 @@ const Card = ({
   percentChange = '',
 }) => {
   const {styles, theme} = useStyles(stylesheet);
+  const [animateToNumber, setAnimateToNumber] = React.useState(0);
 
   const isPositive = percentChange > 0;
   const perChangeSysmbol = isPositive ? '+' : '';
+  useEffect(() => {
+    setTimeout(() => setAnimateToNumber(value), 1200);
+  }, []);
 
   return (
     <Fragment>
@@ -72,6 +76,7 @@ const Card = ({
                 ]}>
                 {perChangeSysmbol + percentChange}
               </Text>
+
               {isPositive ? (
                 <MoveUp color={'green'} size={14} />
               ) : (
@@ -79,7 +84,15 @@ const Card = ({
               )}
             </View>
           </View>
-          <Text style={styles.valueText}>{'$' + value}</Text>
+          <View style={SharedStyles.row}>
+            <Text style={styles.valueText}>{'$'}</Text>
+            <AnimatedNumbers
+              includeComma
+              animationDuration={2000}
+              fontStyle={styles.valueText}
+              animateToNumber={animateToNumber}
+            />
+          </View>
           <Text style={styles.descText}>{desc}</Text>
         </View>
       )}
@@ -125,8 +138,9 @@ const stylesheet = createStyleSheet(theme => ({
   },
   valueText: {
     fontWeight: 'bold',
-    marginTop: verticalScale(4),
+    // marginTop: verticalScale(4),
     fontSize: moderateScale(20),
+    lineHeight: moderateScale(30),
   },
   descText: {
     marginTop: verticalScale(4),

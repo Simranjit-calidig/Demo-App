@@ -8,6 +8,7 @@ const initialState = {
     access_token: '',
     refresh_token: '',
     profileInfo: {},
+    isLoggedIn: false,
   },
   isFirstTime: false,
   isLoading: false,
@@ -18,6 +19,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: state => {
+      state.userData.isLoggedIn = false;
       state = null;
     },
     setTokens: state => {

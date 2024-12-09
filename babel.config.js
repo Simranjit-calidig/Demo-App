@@ -29,6 +29,7 @@ module.exports = {
           '@navigations': './src/navigations',
           '@hooks': './src/hooks',
           '@models': './src/models',
+          '@formik': './src/formik',
         },
       },
     ],

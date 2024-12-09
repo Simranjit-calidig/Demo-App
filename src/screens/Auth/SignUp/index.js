@@ -14,39 +14,34 @@ import {Formik} from 'formik';
 import FORMIK from 'src/formik';
 import {SharedStyles} from 'src/shared';
 import {COLORS} from 'src/styles/themes';
-import {SOCIAL_LOGIN, STORAGE} from '@constants/enum';
 import NAVIGATION from '@navigations/navigation';
 import auth from '@react-native-firebase/auth';
 import {useDispatch, useSelector} from '@redux/hooks';
 import {saveUserData} from '@redux/reducers/auth';
 import {setItem} from 'src/services/apiService';
+import {STORAGE} from '@constants/enum';
 
 const initialValues = {
   email: '',
   password: '',
+  confirmPassword: '',
 };
 
-const {fields, schema} = FORMIK.LOGIN_IN_WITH_EMAIL_PROVIDER;
+const {fields, schema} = FORMIK.SIGN_UP_WITH_EMAIL_PROVIDER;
 
-const LoginScreen = ({navigation}) => {
+const SignUp = ({navigation}) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const {styles, theme} = useStyles(stylesheet);
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
   const [loading, setLoading] = useState(false);
 
-  const onButtonPress = () => {
-    console.log('Button Pressed');
-  };
-
   const onFormSubmit = async values => {
     Keyboard.dismiss?.();
-
     console.log('Values on Submit', values);
     setLoading(true);
-
     auth()
-      .signInWithEmailAndPassword(values?.email, values?.password)
+      .createUserWithEmailAndPassword(values?.email, values?.password)
       .then(res => {
         console.log('User account created & signed in!', res);
         const profileInfo = {
@@ -79,18 +74,10 @@ const LoginScreen = ({navigation}) => {
       });
   };
 
-  const onForgotPassPress = () => {
-    console.log('onForgotPassPress');
-    navigation.navigate(NAVIGATION.STACK.AUTH, {
-      screen: NAVIGATION.AUTH.SIGNUP_SCREEN,
-    });
-  };
-
-  const dontHaveAccountPress = () => {
-    console.log('onForgotPassPress');
-    navigation.navigate(NAVIGATION.STACK.AUTH, {
-      screen: NAVIGATION.AUTH.SIGNUP_SCREEN,
-    });
+  const alreadyHaveAccountPress = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
   };
 
   return (
@@ -99,9 +86,9 @@ const LoginScreen = ({navigation}) => {
         <View style={styles.iconContainer}>
           <AppIcon />
         </View>
-        <Text style={styles.title}>{'Sign in to your Account'}</Text>
+        <Text style={styles.title}>{'Sign Up to your Account'}</Text>
         <Text style={styles.subTitle}>
-          {'Enter your email and password to log in '}
+          {'Enter your email and password to Sign Up '}
         </Text>
         <Formik
           validateOnChange
@@ -119,6 +106,7 @@ const LoginScreen = ({navigation}) => {
             setFieldValue,
             setFieldTouched,
           }) => {
+            // console.log({errors, values});
             return (
               <View>
                 {fields?.map?.((field, index) => {
@@ -140,50 +128,40 @@ const LoginScreen = ({navigation}) => {
                     />
                   );
                 })}
-                <TextContainer
+                {/* <TextContainer
                   onPress={onForgotPassPress}
                   text="Forgotten password?"
                   style={styles.forgotText}
-                />
+                /> */}
                 <Button
-                  title={'Log In'}
                   borderRadius={10}
+                  title={'Sign Up'}
                   isLoading={loading}
                   onPress={handleSubmit}
                   containerStyle={styles.button}
                   isDisabled={
                     !values?.email ||
                     !values?.password ||
+                    !values?.confirmPassword ||
                     errors?.email ||
-                    errors?.password
+                    errors?.password ||
+                    errors?.confirmPassword
                   }
                 />
-                <OrDivider containerStyles={styles.divider} />
+                {/* <OrDivider containerStyles={styles.divider} /> */}
               </View>
             );
           }}
         </Formik>
-        {SOCIAL_LOGIN?.map?.((item, index) => {
-          return (
-            <Button
-              borderRadius={10}
-              title={item.title}
-              key={item.key + index}
-              icon={item.icon}
-              containerStyle={styles.socialBtns}
-              textStyle={{color: 'black'}}
-            />
-          );
-        })}
       </View>
       <View style={SharedStyles.itemCenter}>
         <TouchableOpacity
-          activeOpacity={0.7}
           hitSlop={HIT_POINT}
-          onPress={dontHaveAccountPress}>
+          activeOpacity={0.7}
+          onPress={alreadyHaveAccountPress}>
           <Text style={styles.dontHaveText}>
-            {'Don’t have an account?'}
-            <Text style={styles.boldText}>{' Sign up'}</Text>
+            {'Already have an account?'}
+            <Text style={styles.boldText}>{' Sign In'}</Text>
           </Text>
         </TouchableOpacity>
       </View>
@@ -242,4 +220,4 @@ const stylesheet = createStyleSheet(theme => ({
   },
 }));
 
-export default LoginScreen;
+export default SignUp;

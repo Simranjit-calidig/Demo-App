@@ -29,7 +29,6 @@ const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
 
   const getData = async () => {
-    console.log('Calling..');
     setLoading(true);
     try {
       const salesData = await firestore()
@@ -86,20 +85,16 @@ const HomeScreen = ({navigation}) => {
         setLoading(false);
       }, 500);
     } catch (err) {
-      console.log('get-Data_error', err);
       setTimeout(() => {
         setLoading(false);
       }, 500);
+      console.log('get-Data_error', err);
     }
   };
-
-  // console.log('barData', salesReport);
 
   useEffect(() => {
     getData();
   }, []);
-
-  console.log('loading', loading);
 
   return (
     <WrapperContainer withScreenPadding>

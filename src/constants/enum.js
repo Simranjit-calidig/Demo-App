@@ -1,3 +1,9 @@
+import {
+  GoogleIcon,
+  AppleIcon,
+  FackBookIcon,
+} from '@assets/SVGs/socialLoginIcons';
+
 export const BUNDLE_ID = {
   ANDROID: 'com.demo',
   IOS: 'com.demo',
@@ -13,6 +19,7 @@ export const STORAGE = Object.freeze({
   ACCESS_TOKEN: 'access_token',
   REFRESH_TOKEN: 'refresh_token',
   FCM_TOKEN: 'fcm_token',
+  IS_LOGGED_IN: 'isLoggedIn',
 });
 
 export const ACTION_TYPE = Object.freeze({
@@ -34,3 +41,21 @@ export const APP_THEMES = {
   DARK: 'dark',
   LIGHT: 'light',
 };
+
+export const SOCIAL_LOGIN = [
+  {
+    key: 'google',
+    title: 'Continue with Google',
+    icon: <GoogleIcon />,
+  },
+  // {
+  //   key: 'apple',
+  //   title: 'Continue with Apple',
+  //   icon: <AppleIcon />,
+  // },
+  // {
+  //   key: 'facebook',
+  //   title: 'Continue with Facebook',
+  //   icon: <FackBookIcon />,
+  // },
+];

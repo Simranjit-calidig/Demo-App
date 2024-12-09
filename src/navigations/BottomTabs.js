@@ -1,5 +1,4 @@
 import React, {useRef, useState} from 'react';
-import MainStack from './MainStack';
 import NAVIGATION from './navigation';
 import CustomTabBar from './BottomTabBar';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';

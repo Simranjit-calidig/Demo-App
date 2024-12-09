@@ -13,3 +13,4 @@ export {default as ListFooterComp} from './ListFooterComp';
 export {default as Avatar} from './Avatar';
 export {default as CustomToast} from './CustomToast';
 export {default as RowButtons2} from './RowButtons2';
+export {default as OrDivider} from './OrDivider';

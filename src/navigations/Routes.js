@@ -7,6 +7,7 @@ import NAVIGATION from './navigation';
 import {COLORS} from 'src/styles/themes';
 import AuthStack from './AuthStack';
 import BottomTabs from './BottomTabs';
+import {ProductDetailScreen} from '@screens/index';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,14 +17,23 @@ const Routes = forwardRef((props, ref) => {
 
   // console.log("Routes", userData);
   // console.log("THEME-MODE", UnistylesRuntime.themeName);
+
+  const isUserLoggedIn = userData?.isLoggedIn;
   return (
     <NavigationContainer
       ref={ref}
       // theme={{colors: {background: isDarkMode ? COLORS.black : COLORS.white}}}
     >
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {/* <Stack.Screen name={NAVIGATION.ROUTES.ROUTE_HOME} component={<></>} /> */}
-        <Stack.Screen name={NAVIGATION.APP} component={BottomTabs} />
+        {!isUserLoggedIn ? (
+          <Stack.Screen name={NAVIGATION.STACK.AUTH} component={AuthStack} />
+        ) : (
+          <Stack.Screen name={NAVIGATION.STACK.MAIN} component={BottomTabs} />
+        )}
+        <Stack.Screen
+          component={ProductDetailScreen}
+          name={NAVIGATION.SCREEN.PRODUCT_DETAIL_SCREEN}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
