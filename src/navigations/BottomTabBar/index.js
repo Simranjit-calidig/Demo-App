@@ -25,11 +25,15 @@ const CustomTabBar = ({state, navigation}) => {
 
   const onPress = useCallback(
     (route, index) => {
-      setSelectedTab(route.title);
       try {
-        navigation.navigate(NAVIGATION.STACK.MAIN, {
-          screen: route.route,
-        });
+        if (route?.route === 'ChatScreen') {
+          navigation.navigate(NAVIGATION.SCREEN.CHAT, {});
+        } else {
+          setSelectedTab(route.title);
+          navigation.navigate(NAVIGATION.STACK.MAIN, {
+            screen: route.route,
+          });
+        }
       } catch (error) {
         console.log('Navigation Error', error);
       }

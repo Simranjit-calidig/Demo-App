@@ -7,6 +7,7 @@ import {
   ProductScreen,
   CartScreen,
   ProfileScreen,
+  ChatScreen,
 } from '@screens/index';
 
 const BottomTabs = createBottomTabNavigator();
@@ -23,7 +24,8 @@ export default () => {
         component={ProductScreen}
         name={NAVIGATION.SCREEN.PRODUCT}
       />
-      <BottomTabs.Screen component={CartScreen} name={NAVIGATION.SCREEN.CART} />
+      {/* <BottomTabs.Screen component={CartScreen} name={NAVIGATION.SCREEN.CART} /> */}
+      {/* <BottomTabs.Screen component={ChatScreen} name={NAVIGATION.SCREEN.CHAT} /> */}
       <BottomTabs.Screen
         component={ProfileScreen}
         name={NAVIGATION.SCREEN.PROFILE}

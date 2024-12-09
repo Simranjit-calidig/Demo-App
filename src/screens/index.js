@@ -13,3 +13,5 @@ export {default as ProfileScreen} from './Profile';
 export {default as CartScreen} from './Cart';
 //Product details Screen
 export {default as ProductDetailScreen} from './ProductDetails';
+//AI Chat Screen
+export {default as ChatScreen} from './Chat';

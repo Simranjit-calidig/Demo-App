@@ -34,6 +34,13 @@ const titles = [
   'Smart Bag with USB Port',
 ];
 
+const IMGs = [
+  'https://static.vecteezy.com/system/resources/previews/009/665/781/non_2x/school-bag-for-student-or-bag-for-kid-free-png.png',
+  'https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-colorful-cartoon-backpack-png-image_10013096.png',
+  'https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-a-travelling-bag-tent-storage-roll-vector-png-image_36973772.png',
+  'https://www.transparentpng.com/thumb/women-bag/5n1fgv-red-textured-women-bag-png.png',
+];
+
 const productData = Array.from({length: 20}, (_, index) => ({
   id: `product-${index + 1}`,
   title: titles[Math.floor(Math.random() * titles.length)],
@@ -41,8 +48,7 @@ const productData = Array.from({length: 20}, (_, index) => ({
   price: (Math.random() * 100).toFixed(2),
   stock: Math.floor(Math.random() * 100),
   variants: Math.floor(Math.random() * 10) + 1,
-  imageUri:
-    'https://static.vecteezy.com/system/resources/previews/009/665/781/non_2x/school-bag-for-student-or-bag-for-kid-free-png.png',
+  imageUri: IMGs[Math.floor(Math.random() * IMGs.length)],
 }));
 
 const ProductScreen = ({navigation}) => {

@@ -11,6 +11,7 @@ const NAVIGATION = {
   SCREEN: {
     HOME: 'HomeScreen',
     PRODUCT: 'ProductScreen',
+    CHAT: 'ChatScreen',
     CART: 'CartScreen',
     PROFILE: 'ProfileScreen',
     PRODUCT_DETAIL_SCREEN: 'ProductDetailScreen',

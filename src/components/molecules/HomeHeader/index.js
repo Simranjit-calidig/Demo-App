@@ -7,11 +7,16 @@ import {
 } from 'react-native-unistyles';
 import {moderateScale, SCREEN_PADDING, verticalScale} from '@utils/scaling';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Bell, Menu} from 'lucide-react-native';
+import {Bell, Menu, ArrowLeft} from 'lucide-react-native';
 import {COLORS} from 'src/styles/themes';
 import {SharedStyles} from 'src/shared';
 
-const HomeHeader = ({onNotificationPress = () => {}, title = ''}) => {
+const HomeHeader = ({
+  title = '',
+  withBack = false,
+  onBackPress = () => {},
+  onNotificationPress = () => {},
+}) => {
   const {styles, theme} = useStyles(stylesheet);
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
   const insets = useSafeAreaInsets();
@@ -28,9 +33,15 @@ const HomeHeader = ({onNotificationPress = () => {}, title = ''}) => {
         },
       ]}>
       <View style={styles.rowBox}>
-        <TouchableOpacity activeOpacity={0.7} onPress={onNotificationPress}>
-          <Menu />
-        </TouchableOpacity>
+        {withBack ? (
+          <TouchableOpacity activeOpacity={0.7} onPress={onBackPress}>
+            <ArrowLeft />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity activeOpacity={0.7} onPress={onNotificationPress}>
+            <Menu />
+          </TouchableOpacity>
+        )}
         <Text style={styles.labelText}>{title}</Text>
       </View>
       <TouchableOpacity activeOpacity={0.7} onPress={onNotificationPress}>

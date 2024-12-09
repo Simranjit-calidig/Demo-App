@@ -4,6 +4,7 @@ import {
   UserRound,
   ClipboardList,
 } from 'lucide-react-native';
+import {AiChatIcon} from '@assets/SVGs';
 import NAVIGATION from '@navigations/navigation';
 
 const inActiveColor = '#36363d';
@@ -27,12 +28,20 @@ export const tabHelper = isDark => {
       },
       route: NAVIGATION.SCREEN.PRODUCT,
     },
+    // {
+    //   title: 'Cart',
+    //   route: NAVIGATION.SCREEN.CART,
+    //   Icon: {
+    //     active: <ShoppingCart color={activeColor} />,
+    //     inActive: <ShoppingCart color={inActiveColor} />,
+    //   },
+    // },
     {
-      title: 'Cart',
-      route: NAVIGATION.SCREEN.CART,
+      title: 'AI Chat',
+      route: NAVIGATION.SCREEN.CHAT,
       Icon: {
-        active: <ShoppingCart color={activeColor} />,
-        inActive: <ShoppingCart color={inActiveColor} />,
+        active: <AiChatIcon color={activeColor} />,
+        inActive: <AiChatIcon color={inActiveColor} />,
       },
     },
     {

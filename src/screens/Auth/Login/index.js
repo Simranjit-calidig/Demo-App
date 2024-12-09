@@ -10,7 +10,6 @@ import {AuthContainer} from '@components/molecules';
 import {AppIcon} from '@assets/SVGs';
 import {Button, Input, OrDivider, TextContainer} from '@components/atoms';
 import {Formik} from 'formik';
-// import FORMIK from '@formik/index';
 import FORMIK from 'src/formik';
 import {SharedStyles} from 'src/shared';
 import {COLORS} from 'src/styles/themes';
@@ -20,6 +19,8 @@ import auth from '@react-native-firebase/auth';
 import {useDispatch, useSelector} from '@redux/hooks';
 import {saveUserData} from '@redux/reducers/auth';
 import {setItem} from 'src/services/apiService';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {googleLogin} from '@utils/googleSignin';
 
 const initialValues = {
   email: '',
@@ -35,9 +36,15 @@ const LoginScreen = ({navigation}) => {
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
   const [loading, setLoading] = useState(false);
 
-  const onButtonPress = () => {
-    console.log('Button Pressed');
-  };
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '108737756279-ju8bfhvrfdfin7t5us9ge5pm4j97b7mr.apps.googleusercontent.com',
+      iosClientId:
+        '108737756279-77akqr5cim1qpokreffbojtu8bfasup6.apps.googleusercontent.com',
+      scopes: ['profile', 'email'],
+    });
+  }, []);
 
   const onFormSubmit = async values => {
     Keyboard.dismiss?.();
@@ -78,6 +85,33 @@ const LoginScreen = ({navigation}) => {
         console.error(error);
       });
   };
+
+  const onSocialLoginPress = type => {
+    switch (type) {
+      case 'google':
+        googleLogin()
+          .then(res => {
+            const profileInfo = {
+              additionalUserInfo: res?.data?.additionalUserInfo,
+              displayName: res?.data?.user?.givenName,
+              id: res?.data?.user?.id,
+              email: res?.data?.user?.email,
+              phoneNumber: res?.user?.phoneNumber,
+              photoURL: res?.data?.user?.photo,
+              idToken: res?.data?.idToken,
+            };
+            const isLoggedIn = true;
+            setItem(STORAGE.IS_LOGGED_IN, isLoggedIn);
+            dispatch(saveUserData({profileInfo, isLoggedIn}));
+          })
+          .catch(err => {
+            console.log(err, 'erorrrgoogle');
+          });
+        return;
+    }
+  };
+
+  const onGooglePress = () => {};
 
   const onForgotPassPress = () => {
     console.log('onForgotPassPress');
@@ -172,6 +206,7 @@ const LoginScreen = ({navigation}) => {
               icon={item.icon}
               containerStyle={styles.socialBtns}
               textStyle={{color: 'black'}}
+              onPress={() => onSocialLoginPress(item.key)}
             />
           );
         })}

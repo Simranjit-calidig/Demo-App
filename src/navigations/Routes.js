@@ -7,7 +7,7 @@ import NAVIGATION from './navigation';
 import {COLORS} from 'src/styles/themes';
 import AuthStack from './AuthStack';
 import BottomTabs from './BottomTabs';
-import {ProductDetailScreen} from '@screens/index';
+import {ChatScreen, ProductDetailScreen} from '@screens/index';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,10 +30,15 @@ const Routes = forwardRef((props, ref) => {
         ) : (
           <Stack.Screen name={NAVIGATION.STACK.MAIN} component={BottomTabs} />
         )}
-        <Stack.Screen
-          component={ProductDetailScreen}
-          name={NAVIGATION.SCREEN.PRODUCT_DETAIL_SCREEN}
-        />
+        {!!isUserLoggedIn && (
+          <Stack.Screen
+            component={ProductDetailScreen}
+            name={NAVIGATION.SCREEN.PRODUCT_DETAIL_SCREEN}
+          />
+        )}
+        {!!isUserLoggedIn && (
+          <Stack.Screen component={ChatScreen} name={NAVIGATION.SCREEN.CHAT} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

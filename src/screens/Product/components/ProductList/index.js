@@ -15,6 +15,7 @@ import {COLORS} from 'src/styles/themes';
 import {SharedStyles} from 'src/shared';
 import {EllipsisVertical} from 'lucide-react-native';
 import {useNavigation} from '@react-navigation/native';
+import NAVIGATION from '@navigations/navigation';
 
 const SalesCard = ({
   containerStyles = {},
@@ -26,11 +27,22 @@ const SalesCard = ({
   variants = '',
   imageUri = '',
 }) => {
+  const navigation = useNavigation();
   const {styles, theme} = useStyles(stylesheet);
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
 
   const onProductPress = () => {
-    console.log('Product', title);
+    navigation.navigate(NAVIGATION.SCREEN.PRODUCT_DETAIL_SCREEN, {
+      data: {
+        id,
+        title,
+        brand,
+        price,
+        stock,
+        variants,
+        imageUri,
+      },
+    });
   };
 
   return (
