@@ -1,17 +1,19 @@
-import React from 'react';
-import {View, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, ScrollView, Text} from 'react-native';
 import {
   UnistylesRuntime,
   createStyleSheet,
   useStyles,
 } from 'react-native-unistyles';
-import {scale, verticalScale} from '@utils/scaling';
+import {scale, SCREEN_PADDING, verticalScale} from '@utils/scaling';
 import {HomeHeader, ScreenHeader} from '@components/molecules';
 import {WrapperContainer} from '@components/atoms';
+import AiChat from './components/Chat';
 
 const ChatScreen = ({navigation}) => {
   const {styles, theme} = useStyles(stylesheet);
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
+  const [res, setRes] = useState('');
 
   const onBackPress = () => {
     if (navigation.canGoBack()) {
@@ -20,11 +22,13 @@ const ChatScreen = ({navigation}) => {
   };
 
   return (
-    <WrapperContainer withScreenPadding>
-      <HomeHeader title="AI Chat" withBack onBackPress={onBackPress} />
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <View style={styles.bottom} />
-      </ScrollView>
+    <WrapperContainer
+    // withScreenPadding
+    >
+      <View style={styles.screenHeader}>
+        <HomeHeader title="AI Chat" withBack onBackPress={onBackPress} />
+      </View>
+      <AiChat />
     </WrapperContainer>
   );
 };
@@ -34,7 +38,7 @@ const stylesheet = createStyleSheet(theme => ({
     flex: 1,
   },
   screenHeader: {
-    marginTop: verticalScale(20),
+    paddingHorizontal: SCREEN_PADDING,
   },
   bottom: {
     height: 50,
