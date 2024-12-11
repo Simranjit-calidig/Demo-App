@@ -7,7 +7,7 @@ import {
   useStyles,
 } from 'react-native-unistyles';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {height, SCREEN_PADDING, verticalScale, width} from '@utils/scaling';
+import {verticalScale, width} from '@utils/scaling';
 import {v4 as uuid} from 'uuid';
 import LottieView from 'lottie-react-native';
 import {LOTTIE_ASSETS} from '@assets/lottie';
@@ -34,7 +34,7 @@ function AiChat() {
   const [showLottie, setShowLottie] = useState(true);
 
   useEffect(() => {
-    if (messages?.length > 3) {
+    if (messages?.length >= 3) {
       setShowLottie(false);
     }
   }, [messages?.length, showLottie]);
@@ -62,7 +62,7 @@ function AiChat() {
     setisMsgLoading(true);
 
     // const prompt = `I am using you as a chat bot for my application. So you have to answer user in shot messages don't replay whith to long messages so here is the user promot - ${userMsg}`;
-    const prompt = `You are a highly intelligent and adaptive AI chatbot. Provide concise answers to straightforward questions and detailed, well-structured explanations for complex or open-ended queries. Tailor your tone to be friendly and engaging, ensuring users feel understood and valued. Proactively offer suggestions or clarifications if the user seems uncertain, and maintain professionalism while being approachable. Stay accurate and context-aware, and always strive to make interactions feel personalized and helpful. So here is the user's prompt - ${userMsg}`;
+    const prompt = `You are a highly intelligent and adaptive AI chatbot. Provide concise answers to straightforward questions and detailed, well-structured explanations for complex or open-ended queries. Tailor your tone to be friendly and engaging, ensuring users feel understood and valued. Proactively offer suggestions or clarifications if the user seems uncertain, and maintain professionalism while being approachable. Stay accurate and context-aware, and always strive to make interactions feel personalized and helpful(Also don't use Markdown). So here is the user's prompt - ${userMsg}`;
     try {
       const result = await model.generateContent(prompt);
       const aiMessage = {
@@ -117,6 +117,7 @@ function AiChat() {
       <GiftedChat
         messages={messages}
         isTyping={isMsgLoading}
+        placeholder={'Type a prompt...'}
         onSend={messages => onSend(messages)}
         user={{
           _id: 1,

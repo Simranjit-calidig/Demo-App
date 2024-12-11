@@ -13,7 +13,6 @@ import AiChat from './components/Chat';
 const ChatScreen = ({navigation}) => {
   const {styles, theme} = useStyles(stylesheet);
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
-  const [res, setRes] = useState('');
 
   const onBackPress = () => {
     if (navigation.canGoBack()) {
