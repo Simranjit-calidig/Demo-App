@@ -16,6 +16,7 @@ const {GoogleGenerativeAI} = require('@google/generative-ai');
 
 const BOT_IMG = require('../../../../assets/Images/chat_bot_placeholder.png');
 
+//This Google api key is free api key so no need to worry about lossing it
 const GOOGLE_AI_KEY = 'AIzaSyAyy7PzpZqXkwIunBN-ZmD9ObIwA12r7s8';
 const AI_MODEL_TYPE = 'gemini-1.5-flash-002';
 const BOT_NAME = 'Ai Bot';
