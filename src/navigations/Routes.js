@@ -8,6 +8,7 @@ import {COLORS} from 'src/styles/themes';
 import AuthStack from './AuthStack';
 import BottomTabs from './BottomTabs';
 import {ChatScreen, ProductDetailScreen} from '@screens/index';
+import AppDrawer from './Drawer';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,7 +29,13 @@ const Routes = forwardRef((props, ref) => {
         {!isUserLoggedIn ? (
           <Stack.Screen name={NAVIGATION.STACK.AUTH} component={AuthStack} />
         ) : (
-          <Stack.Screen name={NAVIGATION.STACK.MAIN} component={BottomTabs} />
+          <>
+            {/* <Stack.Screen name={NAVIGATION.STACK.MAIN} component={BottomTabs} /> */}
+            <Stack.Screen
+              component={AppDrawer}
+              name={NAVIGATION.STACK.APP_DRAWER}
+            />
+          </>
         )}
         {!!isUserLoggedIn && (
           <Stack.Screen

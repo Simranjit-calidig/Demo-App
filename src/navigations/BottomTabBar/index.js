@@ -30,8 +30,13 @@ const CustomTabBar = ({state, navigation}) => {
           navigation.navigate(NAVIGATION.SCREEN.CHAT, {});
         } else {
           setSelectedTab(route.title);
-          navigation.navigate(NAVIGATION.STACK.MAIN, {
-            screen: route.route,
+          // navigation.navigate(NAVIGATION.STACK.MAIN, {
+          //   screen: route.route,
+          // });
+          //With drawer nav
+          navigation.navigate(NAVIGATION.STACK.APP_DRAWER, {
+            screen: NAVIGATION.DRAWER,
+            params: {screen: route.route},
           });
         }
       } catch (error) {

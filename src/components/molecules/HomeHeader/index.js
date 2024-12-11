@@ -10,6 +10,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Bell, Menu, ArrowLeft} from 'lucide-react-native';
 import {COLORS} from 'src/styles/themes';
 import {SharedStyles} from 'src/shared';
+import {useNavigation} from '@react-navigation/native';
 
 const HomeHeader = ({
   title = '',
@@ -17,9 +18,14 @@ const HomeHeader = ({
   onBackPress = () => {},
   onNotificationPress = () => {},
 }) => {
+  const navigation = useNavigation();
   const {styles, theme} = useStyles(stylesheet);
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
   const insets = useSafeAreaInsets();
+
+  const onMenuPress = () => {
+    navigation.toggleDrawer();
+  };
 
   return (
     <View
@@ -38,7 +44,7 @@ const HomeHeader = ({
             <ArrowLeft />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity activeOpacity={0.7} onPress={onNotificationPress}>
+          <TouchableOpacity activeOpacity={0.7} onPress={onMenuPress}>
             <Menu />
           </TouchableOpacity>
         )}

@@ -7,7 +7,9 @@ const NAVIGATION = {
     MAIN: 'Main',
     AUTH: 'Auth',
     TAB: 'Tab',
+    APP_DRAWER: 'AppDrawer',
   },
+  DRAWER: 'Drawer',
   SCREEN: {
     HOME: 'HomeScreen',
     PRODUCT: 'ProductScreen',
