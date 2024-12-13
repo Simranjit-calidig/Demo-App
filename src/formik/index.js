@@ -1,3 +1,4 @@
+//This file contains all the form structure and form validation
 import React from 'react';
 import * as Yup from 'yup';
 import {TextContainer} from '@components/atoms';

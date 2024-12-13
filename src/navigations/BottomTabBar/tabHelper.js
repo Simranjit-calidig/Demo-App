@@ -10,6 +10,7 @@ import NAVIGATION from '@navigations/navigation';
 const inActiveColor = '#36363d';
 const activeColor = 'orange';
 
+//Tab Helper function which is use to map app bottom tabs also we can create it dynamic based on api data
 export const tabHelper = isDark => {
   const TABS = [
     {

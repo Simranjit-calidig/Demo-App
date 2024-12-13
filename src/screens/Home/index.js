@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView, ActivityIndicator} from 'react-native';
-import {
-  UnistylesRuntime,
-  createStyleSheet,
-  useStyles,
-} from 'react-native-unistyles';
+import {View, Text, ScrollView} from 'react-native';
+import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {scale, verticalScale} from '@utils/scaling';
 import {HomeHeader, ScreenHeader} from '@components/molecules';
 import {WrapperContainer} from '@components/atoms';
@@ -20,7 +16,6 @@ import firestore from '@react-native-firebase/firestore';
 
 const HomeScreen = ({navigation}) => {
   const {styles, theme} = useStyles(stylesheet);
-  const isDarkMode = UnistylesRuntime.themeName === 'dark';
   const [salesData, setSalesData] = useState([]);
   const [salesFigures, setSalesFigures] = useState({});
   const [salesReport, setSalesReport] = useState([]);

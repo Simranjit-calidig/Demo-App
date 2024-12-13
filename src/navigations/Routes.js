@@ -6,15 +6,16 @@ import {useSelector} from '@redux/hooks';
 import NAVIGATION from './navigation';
 import {COLORS} from 'src/styles/themes';
 import AuthStack from './AuthStack';
-import BottomTabs from './BottomTabs';
-import {ChatScreen, ProductDetailScreen} from '@screens/index';
+import {ChatScreen, ProductDetailScreen, ErrorScreen} from '@screens/index';
 import AppDrawer from './Drawer';
+
+//So in this app we are you Nested navigation to get the functionality of Bottom Tabs and App Drawer
 
 const Stack = createNativeStackNavigator();
 
 const Routes = forwardRef((props, ref) => {
   const isDarkMode = UnistylesRuntime.themeName === 'dark';
-  const {userData} = useSelector(state => state.auth); //refresh_token , access_token
+  const {userData} = useSelector(state => state.auth);
 
   // console.log("Routes", userData);
   // console.log("THEME-MODE", UnistylesRuntime.themeName);
@@ -29,13 +30,10 @@ const Routes = forwardRef((props, ref) => {
         {!isUserLoggedIn ? (
           <Stack.Screen name={NAVIGATION.STACK.AUTH} component={AuthStack} />
         ) : (
-          <>
-            {/* <Stack.Screen name={NAVIGATION.STACK.MAIN} component={BottomTabs} /> */}
-            <Stack.Screen
-              component={AppDrawer}
-              name={NAVIGATION.STACK.APP_DRAWER}
-            />
-          </>
+          <Stack.Screen
+            component={AppDrawer}
+            name={NAVIGATION.STACK.APP_DRAWER}
+          />
         )}
         {!!isUserLoggedIn && (
           <Stack.Screen

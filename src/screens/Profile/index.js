@@ -5,13 +5,7 @@ import {
   createStyleSheet,
   useStyles,
 } from 'react-native-unistyles';
-import {
-  height,
-  moderateScale,
-  SCREEN_PADDING,
-  verticalScale,
-  width,
-} from '@utils/scaling';
+import {moderateScale, SCREEN_PADDING, verticalScale} from '@utils/scaling';
 import {HomeHeader, ScreenHeader} from '@components/molecules';
 import {TextContainer, WrapperContainer, Avatar} from '@components/atoms';
 import {useDispatch, useSelector} from '@redux/hooks';
@@ -30,7 +24,6 @@ import {
 } from 'lucide-react-native';
 import {COLORS} from 'src/styles/themes';
 import auth from '@react-native-firebase/auth';
-import {head} from 'node_modules/axios/index.d.cts';
 
 const TABS = [
   {
@@ -91,12 +84,6 @@ const ProfileScreen = ({navigation}) => {
 
   const onLogOutPress = () => {
     setLoading(true);
-    // auth()
-    //   .signOut()
-    //   .then(() => {
-    //     console.log('User signed out!');
-    //   });
-    console.log('logout', loading);
     try {
       dispatch(logout());
       storage.clearAll();

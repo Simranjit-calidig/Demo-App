@@ -1,3 +1,4 @@
+//This file containes temp. data
 const SALES_DATA = [
   {
     title: 'Sales',

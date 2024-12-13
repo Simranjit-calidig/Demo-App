@@ -21,6 +21,8 @@ import {saveUserData} from '@redux/reducers/auth';
 import {setItem} from 'src/services/apiService';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {googleLogin} from '@utils/googleSignin';
+import {WEB_CLIENT_ID, IOS_CLIENT_ID} from 'src/secrets';
+import {showMessage} from 'react-native-flash-message';
 
 const initialValues = {
   email: '',
@@ -38,10 +40,8 @@ const LoginScreen = ({navigation}) => {
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId:
-        '108737756279-ju8bfhvrfdfin7t5us9ge5pm4j97b7mr.apps.googleusercontent.com',
-      iosClientId:
-        '108737756279-77akqr5cim1qpokreffbojtu8bfasup6.apps.googleusercontent.com',
+      webClientId: WEB_CLIENT_ID,
+      iosClientId: IOS_CLIENT_ID,
       scopes: ['profile', 'email'],
     });
   }, []);
@@ -49,13 +49,11 @@ const LoginScreen = ({navigation}) => {
   const onFormSubmit = async values => {
     Keyboard.dismiss?.();
 
-    console.log('Values on Submit', values);
     setLoading(true);
 
     auth()
       .signInWithEmailAndPassword(values?.email, values?.password)
       .then(res => {
-        console.log('User account created & signed in!', res);
         const profileInfo = {
           additionalUserInfo: res?.additionalUserInfo,
           displayName: res?.user?.displayName,
@@ -76,13 +74,25 @@ const LoginScreen = ({navigation}) => {
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
           console.log('That email address is already in use!');
+          showMessage({
+            message: 'That email address is already in use!',
+            type: 'danger',
+          });
         }
 
         if (error.code === 'auth/invalid-email') {
           console.log('That email address is invalid!');
+          showMessage({
+            message: 'That email address is invalid!',
+            type: 'danger',
+          });
         }
         setLoading(false);
         console.error(error);
+        showMessage({
+          message: 'Something went wronge!',
+          type: 'danger',
+        });
       });
   };
 
@@ -106,22 +116,22 @@ const LoginScreen = ({navigation}) => {
           })
           .catch(err => {
             console.log(err, 'erorrrgoogle');
+            showMessage({
+              message: 'Failed Google Login!',
+              type: 'danger',
+            });
           });
         return;
     }
   };
 
-  const onGooglePress = () => {};
-
   const onForgotPassPress = () => {
-    console.log('onForgotPassPress');
     navigation.navigate(NAVIGATION.STACK.AUTH, {
       screen: NAVIGATION.AUTH.SIGNUP_SCREEN,
     });
   };
 
   const dontHaveAccountPress = () => {
-    console.log('onForgotPassPress');
     navigation.navigate(NAVIGATION.STACK.AUTH, {
       screen: NAVIGATION.AUTH.SIGNUP_SCREEN,
     });

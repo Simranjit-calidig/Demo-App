@@ -1,5 +1,5 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import {Platform, View} from 'react-native';
+import React, {useState, useCallback, useEffect, useRef} from 'react';
+import {Platform, Pressable, View} from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import {
   UnistylesRuntime,
@@ -11,19 +11,23 @@ import {verticalScale, width} from '@utils/scaling';
 import {v4 as uuid} from 'uuid';
 import LottieView from 'lottie-react-native';
 import {LOTTIE_ASSETS} from '@assets/lottie';
-
+import {getTypingSpeedBasedOnLen} from '@screens/Chat/helper';
+import {
+  GOOGLE_AI_MODEL_TYPE,
+  AI_MODEL_CONFIG_PROMPT,
+  AI_MODEL_TYPE,
+} from '@constants/enum';
+import {grokTextGenAiModel} from 'src/apis/grokApi';
+import {GOOGLE_AI_KEY} from 'src/secrets';
+import {showMessage} from 'react-native-flash-message';
 const {GoogleGenerativeAI} = require('@google/generative-ai');
 
-const BOT_IMG = require('../../../../assets/Images/chat_bot_placeholder.png');
-
-//This Google api key is free api key so no need to worry about lossing it
-const GOOGLE_AI_KEY = 'AIzaSyAyy7PzpZqXkwIunBN-ZmD9ObIwA12r7s8';
-const AI_MODEL_TYPE = 'gemini-1.5-flash-002';
 const BOT_NAME = 'Ai Bot';
-// const AI_MODEL_TYPE = 'gemini-1.5-flash';
 const genAI = new GoogleGenerativeAI(GOOGLE_AI_KEY);
-
-const model = genAI.getGenerativeModel({model: AI_MODEL_TYPE});
+const model = genAI.getGenerativeModel({
+  model: GOOGLE_AI_MODEL_TYPE.GEMINI_FLASH_2,
+});
+const BOT_IMG = require('../../../../assets/Images/chat_bot_placeholder.png');
 
 function AiChat() {
   const insets = useSafeAreaInsets();
@@ -33,6 +37,8 @@ function AiChat() {
   const [messages, setMessages] = useState([]);
   const [isMsgLoading, setisMsgLoading] = useState(false);
   const [showLottie, setShowLottie] = useState(true);
+
+  const isCancelledRef = useRef(false);
 
   useEffect(() => {
     if (messages?.length >= 3) {
@@ -59,16 +65,27 @@ function AiChat() {
     }, 800);
   }, []);
 
-  const genAiModel = async userMsg => {
+  const genAiModel = async (userMsg, modelType) => {
     setisMsgLoading(true);
 
-    // const prompt = `I am using you as a chat bot for my application. So you have to answer user in shot messages don't replay whith to long messages so here is the user promot - ${userMsg}`;
-    const prompt = `You are a highly intelligent and adaptive AI chatbot. Provide concise answers to straightforward questions and detailed, well-structured explanations for complex or open-ended queries. Tailor your tone to be friendly and engaging, ensuring users feel understood and valued. Proactively offer suggestions or clarifications if the user seems uncertain, and maintain professionalism while being approachable. Stay accurate and context-aware, and always strive to make interactions feel personalized and helpful(Also don't use Markdown). So here is the user's prompt - ${userMsg}`;
     try {
-      const result = await model.generateContent(prompt);
-      const aiMessage = {
+      let result = '';
+      let fullText = '';
+      if (modelType === AI_MODEL_TYPE.GROK) {
+        result = await grokTextGenAiModel(userMsg);
+        fullText = result?.choices?.[0].message?.content;
+      } else if (modelType === AI_MODEL_TYPE.GEMINI) {
+        const prompt = `${AI_MODEL_CONFIG_PROMPT}. So here is the user's prompt - ${userMsg}`;
+        result = await model.generateContent(prompt);
+        fullText = result.response.text();
+      }
+
+      const words = fullText.split(' ');
+      setisMsgLoading(false);
+
+      const typingMessage = {
         _id: uuid(),
-        text: result.response.text(),
+        text: '',
         createdAt: new Date(),
         user: {
           _id: 2,
@@ -76,19 +93,40 @@ function AiChat() {
           avatar: BOT_IMG,
         },
       };
+
       setMessages(previousMessages =>
-        GiftedChat.append(previousMessages, aiMessage),
+        GiftedChat.append(previousMessages, typingMessage),
       );
-      setisMsgLoading(false);
+
+      let currentText = '';
+      const resultLen = words.length;
+      const typingSpeed = getTypingSpeedBasedOnLen(resultLen);
+      for (let i = 0; i < resultLen; i++) {
+        if (isCancelledRef.current) break;
+        currentText += (i > 0 ? ' ' : '') + words[i];
+        await new Promise(resolve => setTimeout(resolve, typingSpeed));
+        setMessages(previousMessages => {
+          const updatedMessages = [...previousMessages];
+          updatedMessages[0] = {
+            ...updatedMessages[0],
+            text: currentText,
+          };
+          return updatedMessages;
+        });
+      }
     } catch (err) {
       setisMsgLoading(false);
       console.log('API Error', err);
+      showMessage({
+        message: 'Something went wronge!',
+        type: 'danger',
+      });
     }
   };
 
   const onSend = useCallback((messages = []) => {
-    // console.log('Messages...', messages, messages?.[0]?.text || '');
-    genAiModel(messages?.[0]?.text || '');
+    isCancelledRef.current = false;
+    genAiModel(messages?.[0]?.text || '', AI_MODEL_TYPE.GEMINI);
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, messages),
     );
@@ -105,6 +143,20 @@ function AiChat() {
               : verticalScale(15),
         },
       ]}>
+      {/* <Pressable
+        style={{
+          height: 30,
+          width: 150,
+          backgroundColor: 'red',
+          position: 'absolute',
+          bottom: 80,
+          zIndex: 10,
+          right: 0,
+        }}
+        onPress={() => {
+          console.log('Hello');
+          isCancelledRef.current = true;
+        }}></Pressable> */}
       {showLottie && (
         <View style={styles.animationContainer}>
           <LottieView

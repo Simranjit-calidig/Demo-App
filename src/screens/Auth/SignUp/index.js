@@ -1,25 +1,20 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {View, Text, Pressable, Keyboard, TouchableOpacity} from 'react-native';
-import {
-  UnistylesRuntime,
-  createStyleSheet,
-  useStyles,
-} from 'react-native-unistyles';
+import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {HIT_POINT, moderateScale, scale, verticalScale} from '@utils/scaling';
 import {AuthContainer} from '@components/molecules';
 import {AppIcon} from '@assets/SVGs';
 import {Button, Input, OrDivider, TextContainer} from '@components/atoms';
 import {Formik} from 'formik';
-// import FORMIK from '@formik/index';
 import FORMIK from 'src/formik';
 import {SharedStyles} from 'src/shared';
 import {COLORS} from 'src/styles/themes';
-import NAVIGATION from '@navigations/navigation';
 import auth from '@react-native-firebase/auth';
 import {useDispatch, useSelector} from '@redux/hooks';
 import {saveUserData} from '@redux/reducers/auth';
 import {setItem} from 'src/services/apiService';
 import {STORAGE} from '@constants/enum';
+import {showMessage} from 'react-native-flash-message';
 
 const initialValues = {
   email: '',
@@ -33,7 +28,6 @@ const SignUp = ({navigation}) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const {styles, theme} = useStyles(stylesheet);
-  const isDarkMode = UnistylesRuntime.themeName === 'dark';
   const [loading, setLoading] = useState(false);
 
   const onFormSubmit = async values => {
@@ -64,13 +58,25 @@ const SignUp = ({navigation}) => {
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
           console.log('That email address is already in use!');
+          showMessage({
+            message: 'That email address is already in use!',
+            type: 'danger',
+          });
         }
 
         if (error.code === 'auth/invalid-email') {
           console.log('That email address is invalid!');
+          showMessage({
+            message: 'That email address is already in use!',
+            type: 'danger',
+          });
         }
         setLoading(false);
         console.error(error);
+        showMessage({
+          message: 'Something went wronge!',
+          type: 'danger',
+        });
       });
   };
 
@@ -106,7 +112,6 @@ const SignUp = ({navigation}) => {
             setFieldValue,
             setFieldTouched,
           }) => {
-            // console.log({errors, values});
             return (
               <View>
                 {fields?.map?.((field, index) => {

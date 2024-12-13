@@ -15,3 +15,5 @@ export {default as CartScreen} from './Cart';
 export {default as ProductDetailScreen} from './ProductDetails';
 //AI Chat Screen
 export {default as ChatScreen} from './Chat';
+//Error Screen
+export {default as ErrorScreen} from './ErrorScreen';

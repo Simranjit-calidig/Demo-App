@@ -5,10 +5,12 @@ import {Platform, UIManager, YellowBox, LogBox} from 'react-native';
 import store from '@redux/store';
 import checkLocalStorage from '@utils/handleLocalStorage';
 import {Provider} from 'react-redux';
-import Routes from '@navigations/Routes';
-import {NavigationService} from '@services';
+import FlashMessage from 'react-native-flash-message';
 import SplashScreen from 'react-native-splash-screen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {ErrorBoundary} from '@screens/ErrorScreen';
+import {NavigationService} from '@services';
+import Routes from '@navigations/Routes';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -34,9 +36,12 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <Provider store={store}>
-        <Routes ref={navRef => NavigationService.setNavigatorRef(navRef)} />
-      </Provider>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <Routes ref={navRef => NavigationService.setNavigatorRef(navRef)} />
+          <FlashMessage position="top" />
+        </Provider>
+      </ErrorBoundary>
     </GestureHandlerRootView>
   );
 };

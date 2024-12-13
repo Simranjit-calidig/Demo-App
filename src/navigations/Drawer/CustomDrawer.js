@@ -25,7 +25,6 @@ function CustomDrawer(props) {
           <Text style={styles.labelStyles}>{'AI Chat'}</Text>
         )}
         onPress={pro => {
-          console.log('item', props);
           navigation.navigate(NAVIGATION.SCREEN.CHAT, {});
           setTimeout(() => {
             props?.navigation.closeDrawer();

@@ -1,14 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
-import {
-  UnistylesRuntime,
-  createStyleSheet,
-  useStyles,
-} from 'react-native-unistyles';
-import {moderateScale, SCREEN_PADDING, verticalScale} from '@utils/scaling';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Bell, Menu} from 'lucide-react-native';
-import {COLORS} from 'src/styles/themes';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import {verticalScale} from '@utils/scaling';
 import {SharedStyles} from 'src/shared';
 import {DropDownIcon} from '@assets/SVGs';
 
@@ -19,8 +12,6 @@ const ScreenHeader = ({
   containerStyles = {},
 }) => {
   const {styles, theme} = useStyles(stylesheet);
-  const isDarkMode = UnistylesRuntime.themeName === 'dark';
-  const insets = useSafeAreaInsets();
 
   return (
     <View style={[styles.main, containerStyles]}>

@@ -33,7 +33,7 @@ const CustomTabBar = ({state, navigation}) => {
           // navigation.navigate(NAVIGATION.STACK.MAIN, {
           //   screen: route.route,
           // });
-          //With drawer nav
+          //With drawer navigation
           navigation.navigate(NAVIGATION.STACK.APP_DRAWER, {
             screen: NAVIGATION.DRAWER,
             params: {screen: route.route},
